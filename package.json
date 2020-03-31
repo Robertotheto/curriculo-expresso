@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/Robertotheto/curriculo-expresso/issues"
   },
-  "homepage": "https://github.com/Robertotheto/curriculo-expresso#readme"
+  "homepage": "https://github.com/Robertotheto/curriculo-expresso#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
