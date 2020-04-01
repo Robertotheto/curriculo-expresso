@@ -1,0 +1,12 @@
+body{
+    font: 18px 'Lucida Grande', Helvetica,Arial,sans-serif;
+    line-height: 2;
+    background-color: #f0e6e6;
+}
+main, footer{
+    max-width: 960px;
+    margin: 0 auto;
+}
+h1{
+    text-align: center;
+}

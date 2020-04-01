@@ -1,45 +1,30 @@
 const express = require('express')
+const createError = require('http-errors')
 const port = 3000
 const app = express()
+const indexRoute = require('./routes/index')
+const curriculoRoute = require('./routes/curriculo')
 const path = require('path')
+app.use(express.static(path.join(__dirname, 'public')))
 
 //Setup view engine
 app.set('views',path.join(__dirname,'views'))
 app.set('view engine','ejs')
 
-app.get('/',function(req,res,next){
-    res.render('index',{
-        title:'Meu primeiro servidor com Express',
-        version: '0.0.0'
-    })
+app.get('/',indexRoute)
+app.get('/curriculo',curriculoRoute)
+
+app.use((req,res,next) => {
+    next(createError(404))
 })
-app.get('/curriculo',function(req,res,next){
-    res.render('curriculo',{
-        title: 'Meu Curriculo',
-        name: 'Roberto dos Santos Filho',
-        profession: 'Apreendendo Programação Web',
-        description: 'Estudando linguagem de programação web, como Html, Css, JavaScript, NodeJs, MongoDb, ReactJs e ReactNative.',
-        experience:[
-            {
-                company: 'Curso Sistema de Informação',
-                office: 'Desenvolvimento FullStack',
-                description:'Curso de Programação Web'
-            },
-            {
-                company:'Youtube',
-                office: 'Auto Apreendizado',
-                description:'Assistir videos para apreender e ter conhecimento de uma determinada linguagem.'
-            }
-        ],
-        education:[
-            {
-                institution: 'Faculdade Unemat',
-                description: '3° semestre do curso superior de sistema de informação.'
-            }
-        ],
-        skills:['Backend','Frontend','Banco de Dados','Mobile']
-    })
+app.use((err,req,res,next) => {
+    res.locals.message = err.message
+    res.locals.error = req.app.get('env') === 'development' ? err:{}
+
+    res.status(err.status || 500)
+    res.render('error')
 })
+
 app.listen(port,err =>{
     console.log(`Server is listening on ${port}`)
 })
